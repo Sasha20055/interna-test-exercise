@@ -353,3 +353,9 @@ Verified formatting for the workflow and deployment guide, parsed both workflow 
 The user's screenshot showed the independent Quality checks workflow, whose push trigger still installed Chromium. CI now skips browser installation, E2E execution and browser-report uploads on push. Pull requests retain browser checks, and a new workflow_dispatch trigger permits manual browser runs. npm run check still runs for every CI event; the Pages workflow remains independent and contains no browser steps.
 
 Verified both YAML files parse, both browser steps have the push exclusion, manual dispatch is configured, npm run check is unconditional and the deployment build has no browser steps. Formatting checks for the workflow and deployment guide and git diff --check passed. No application tests or remote runs were executed for this workflow-only change.
+
+### Toolbar hover contrast — 2026-11-11
+
+The generic segmented-button hover rule overrode the selected button's accent background while leaving its white text unchanged. Hover backgrounds now apply only to unselected buttons. Selected buttons use the theme's accent-contrast text token, preserving readable text in both light and dark themes.
+
+Verified npm run check (formatting, lint, typecheck, 81 Vitest tests and production build). A targeted Chromium check confirmed that selected size, data-mode and theme buttons retain their background/text colors on hover in both themes, and unselected buttons use the expected hover background and primary text color. The complete browser suite was not rerun for this CSS-only fix.

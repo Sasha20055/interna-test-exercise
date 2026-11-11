@@ -79,13 +79,13 @@
   cursor: pointer;
 }
 
-.sandbox-seg__btn:hover {
+.sandbox-seg__btn:not(.sandbox-seg__btn--active):hover {
   background: var(--bg-hover);
 }
 
 .sandbox-seg__btn--active {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--accent-contrast);
 }
 
 .sandbox-body {
