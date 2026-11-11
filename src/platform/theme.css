@@ -1,6 +1,7 @@
 :root {
   color-scheme: light;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, sfmono-regular, menlo, consolas, monospace;
 
   /* Spacing scale */
@@ -211,4 +212,8 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scrollbar-gutter: stable;
 }

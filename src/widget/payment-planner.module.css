@@ -1,0 +1,716 @@
+.dash-payment-planner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  container-type: inline-size;
+  container-name: payment-planner;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+.dash-payment-planner h3 {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+}
+.dash-payment-planner p {
+  margin: 0;
+}
+.dash-payment-planner small {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+.dash-payment-planner button,
+.dash-payment-planner input,
+.dash-payment-planner select {
+  font: inherit;
+}
+.dash-payment-planner button {
+  cursor: pointer;
+}
+.dash-payment-planner :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.dash-payment-planner input[type='range'],
+.dash-payment-planner input[type='checkbox'] {
+  accent-color: var(--accent);
+}
+.dash-payment-planner input[type='range'] {
+  width: 100%;
+  margin: var(--space-2) 0;
+  cursor: pointer;
+}
+.dash-payment-planner input:disabled {
+  cursor: default;
+}
+.dash-payment-planner select,
+.dash-payment-planner input[type='number'] {
+  min-height: var(--control-h-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--dash-input-bg);
+  color: var(--text-primary);
+  padding: var(--space-1) var(--space-2);
+  max-width: 100%;
+  min-width: 0;
+}
+.dash-payment-planner details {
+  overflow-wrap: anywhere;
+}
+.dash-payment-planner summary {
+  cursor: pointer;
+}
+
+.dash-payment-planner[data-size='half'] {
+  min-block-size: 460px;
+  gap: var(--space-3);
+}
+.dash-payment-planner[data-size='third'] {
+  min-block-size: 360px;
+  gap: var(--space-2);
+}
+.dash-payment-planner[data-size='quarter'] {
+  min-block-size: 360px;
+  gap: var(--space-3);
+}
+.dash-payment-planner__statistics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+.dash-payment-planner__statistics > div,
+.dash-payment-planner__count {
+  padding: var(--space-3);
+  background: var(--bg-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.dash-payment-planner__statistics strong {
+  display: block;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-bold);
+}
+.dash-payment-planner__statistics span {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+.dash-payment-planner__selected-stat span {
+  color: var(--accent-strong);
+}
+.dash-payment-planner__statistics .dash-payment-planner__selected-stat,
+.dash-payment-planner__count {
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+  color: var(--accent-strong);
+}
+@container payment-planner (max-width: 540px) {
+  .dash-payment-planner__statistics {
+    gap: var(--space-2);
+  }
+  .dash-payment-planner__statistics > div {
+    padding: var(--space-2);
+  }
+  .dash-payment-planner__statistics strong {
+    font-size: var(--text-xl);
+  }
+}
+
+.dash-payment-planner[data-size='full'] .dash-payment-planner__statistics {
+  gap: var(--space-2);
+}
+.dash-payment-planner[data-size='full']
+  .dash-payment-planner__statistics
+  > div {
+  padding: 6px 8px;
+}
+.dash-payment-planner[data-size='full']
+  .dash-payment-planner__statistics
+  strong {
+  font-size: 18px;
+  line-height: 1.2;
+}
+.dash-payment-planner[data-size='full'] .dash-payment-planner__statistics span {
+  font-size: 11px;
+}
+.dash-payment-planner__count strong {
+  display: block;
+  font-size: var(--text-3xl);
+  line-height: 1.2;
+}
+.dash-payment-planner__count strong span {
+  color: var(--text-muted);
+  font-size: var(--text-lg);
+}
+.dash-payment-planner[data-size='third'] .dash-payment-planner__count {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.dash-payment-planner[data-size='third'] .dash-payment-planner__count strong {
+  font-size: 26px;
+}
+.dash-payment-planner[data-size='third'] .dash-payment-planner__count small {
+  font-size: 11px;
+}
+.dash-payment-planner[data-size='quarter'] .dash-payment-planner__count {
+  border: 0;
+  border-radius: var(--radius-sm);
+}
+.dash-payment-planner[data-size='quarter'] .dash-payment-planner__count strong {
+  font-size: 26px;
+}
+.dash-payment-planner[data-size='quarter'] .dash-payment-planner__count small {
+  color: var(--accent-strong);
+  font-size: 11px;
+}
+.dash-payment-planner__filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: end;
+}
+.dash-payment-planner__filters > label {
+  display: grid;
+  gap: var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+.dash-payment-planner__filters fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.dash-payment-planner__filters legend {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  margin-bottom: var(--space-1);
+}
+.dash-payment-planner__filters legend span {
+  font-size: var(--text-2xs);
+}
+@container payment-planner (max-width: 320px) {
+  .dash-payment-planner__filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.dash-payment-planner__checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.dash-payment-planner__checks label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.dash-payment-planner__selection {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  background: var(--bg-muted);
+}
+.dash-payment-planner__selection-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.dash-payment-planner__selection-label label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+}
+.dash-payment-planner__selection-label input {
+  width: 88px;
+}
+
+.dash-payment-planner__selection-percent {
+  color: var(--accent);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+}
+.dash-payment-planner__overview {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--space-3);
+}
+.dash-payment-planner__overview > :only-child {
+  grid-column: 1 / -1;
+}
+@container payment-planner (max-width: 540px) {
+  .dash-payment-planner__overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.dash-payment-planner[data-size='full']
+  .dash-payment-planner__overview
+  > .dash-payment-planner__panel {
+  min-block-size: 152px;
+}
+.dash-payment-planner__stack {
+  display: grid;
+  gap: var(--space-3);
+}
+.dash-payment-planner__stack:empty,
+.dash-payment-planner__overview:empty {
+  display: none;
+}
+.dash-payment-planner[data-size='third'] .dash-payment-planner__stack {
+  gap: var(--space-2);
+}
+.dash-payment-planner__panel {
+  background: var(--bg-muted);
+  border: 1px solid var(--border);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  min-width: 0;
+}
+.dash-payment-planner__panel > h3,
+.dash-payment-planner__panel-heading h3 {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+}
+.dash-payment-planner__panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-2);
+}
+.dash-payment-planner__panel > .dash-payment-planner__action {
+  margin-top: var(--space-2);
+  width: 100%;
+}
+.dash-payment-planner__panel[data-compact='true']
+  .dash-payment-planner__panel-heading {
+  flex-wrap: nowrap;
+  margin: 0;
+}
+.dash-payment-planner__panel[data-compact='true'] h3 {
+  font-size: 10px;
+}
+.dash-payment-planner__panel[data-compact='true'] .dash-payment-planner__bar {
+  margin-block: var(--space-2);
+}
+.dash-payment-planner__panel[data-compact='true'] button[role='combobox'] {
+  min-height: 28px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+.dash-payment-planner__currencies {
+  margin: var(--space-2) 0 0;
+}
+.dash-payment-planner__currencies > div {
+  padding-block: 3px;
+}
+.dash-payment-planner__currencies dt {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.dash-payment-planner__currencies dd {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+  min-width: 0;
+}
+.dash-payment-planner__currencies strong {
+  font-size: var(--text-md);
+  overflow-wrap: anywhere;
+}
+.dash-payment-planner__currencies > div:first-child strong {
+  font-size: var(--text-lg);
+}
+.dash-payment-planner__currencies small {
+  flex-shrink: 0;
+  font-size: var(--text-2xs);
+}
+@container payment-planner (max-width: 320px) {
+  .dash-payment-planner__currencies strong {
+    font-size: var(--text-md);
+  }
+}
+.dash-payment-planner__currency-summary {
+  min-block-size: 152px;
+}
+.dash-payment-planner__currency-summary[data-summary-size='third'],
+.dash-payment-planner__currency-summary[data-summary-size='quarter'],
+.dash-payment-planner__panel[data-compact='true'] {
+  padding: 0;
+  border: 0;
+  background: none;
+  min-block-size: 0;
+}
+.dash-payment-planner__currency-summary[data-summary-size='third'] {
+  min-block-size: 104px;
+}
+.dash-payment-planner__currency-summary[data-summary-size='third'] h3 {
+  display: none;
+}
+.dash-payment-planner__currency-summary[data-summary-size='third']
+  .dash-payment-planner__currencies {
+  margin: 0;
+}
+.dash-payment-planner__currency-summary[data-summary-size='quarter'] {
+  min-block-size: 116px;
+}
+.dash-payment-planner__currency-summary[data-summary-size='quarter'] h3 {
+  font-size: 10px;
+}
+.dash-payment-planner__currency-summary[data-summary-size='quarter']
+  .dash-payment-planner__currencies
+  strong {
+  font-size: var(--text-md);
+}
+.dash-payment-planner__currency-summary[data-summary-size='quarter'] > button {
+  width: 100%;
+  font-size: 10px;
+  padding: 5px 2px;
+  min-height: 26px;
+  margin-top: var(--space-2);
+}
+.dash-payment-planner__bar {
+  display: flex;
+  height: 10px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--border);
+  margin: var(--space-3) 0;
+}
+.dash-payment-planner__bar span {
+  height: 100%;
+}
+.dash-payment-planner__providers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.dash-payment-planner__providers li {
+  display: flex;
+  gap: 8px;
+  padding-left: 12px;
+  font-size: var(--text-xs);
+  overflow-wrap: anywhere;
+  align-items: baseline;
+  justify-content: space-between;
+  border: 0;
+  position: relative;
+}
+.dash-payment-planner__providers strong {
+  font-weight: var(--font-weight-semibold);
+  flex-shrink: 0;
+  font-size: var(--text-2xs);
+}
+.dash-payment-planner__providers--compact li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.dash-payment-planner__providers li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--provider-color);
+  position: absolute;
+  left: 0;
+  top: 6px;
+}
+.dash-payment-planner__providers li > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dash-payment-planner__providers--compact {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.dash-payment-planner__meta {
+  display: grid;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+}
+.dash-payment-planner__queue {
+  min-width: 0;
+}
+.dash-payment-planner__table-scroll {
+  position: relative;
+  contain: layout paint;
+  flex-shrink: 0;
+  overscroll-behavior: contain;
+  overflow: auto;
+  block-size: clamp(280px, 45dvh, 440px);
+  scrollbar-gutter: stable;
+  overflow-anchor: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+.dash-payment-planner table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--text-xs);
+  min-width: 620px;
+}
+.dash-payment-planner th {
+  position: sticky;
+  top: 0;
+  background: var(--bg-muted);
+  color: var(--dash-table-header);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  text-align: left;
+  z-index: 1;
+}
+.dash-payment-planner th,
+.dash-payment-planner td {
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--dash-table-row-border);
+  vertical-align: top;
+}
+.dash-payment-planner td {
+  color: var(--dash-table-cell);
+}
+.dash-payment-planner td small,
+.dash-payment-planner td > span,
+.dash-payment-planner td > button {
+  display: block;
+}
+.dash-payment-planner td:last-child,
+.dash-payment-planner th:last-child {
+  text-align: right;
+}
+.dash-payment-planner td:last-child {
+  min-width: 125px;
+}
+.dash-payment-planner tr[data-selected='true'] {
+  background: var(--accent-soft);
+}
+.dash-payment-planner tr[data-invalid='true'] {
+  background: var(--dash-surface-warn);
+}
+.dash-payment-planner__invalid {
+  color: var(--dash-warn-header);
+}
+.dash-payment-planner__invalid small {
+  color: inherit;
+}
+.dash-payment-planner__text-button {
+  padding: 0;
+  color: var(--dash-link);
+  border: 0;
+  background: transparent;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.dash-payment-planner__action {
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  padding: var(--space-2) var(--space-3);
+  min-height: var(--control-h-md);
+  font-weight: var(--font-weight-semibold);
+}
+.dash-payment-planner__action:hover {
+  background: var(--bg-hover);
+}
+.dash-payment-planner:not([data-size='full'])[data-size]
+  > .dash-payment-planner__action:last-of-type {
+  margin-block-start: auto;
+}
+.dash-payment-planner[data-size='third'] > .dash-payment-planner__action {
+  min-height: 34px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+.dash-payment-planner__empty {
+  padding: var(--space-5) var(--space-3);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  text-align: center;
+  display: grid;
+  gap: var(--space-2);
+  color: var(--text-muted);
+}
+.dash-payment-planner__muted {
+  color: var(--text-muted);
+}
+.dash-payment-planner__notice {
+  block-size: 72px;
+  flex-shrink: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-muted);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+.dash-payment-planner__notice[data-warning='true'] {
+  border-color: color-mix(in srgb, var(--warning) 35%, var(--border));
+  background: var(--dash-surface-warn);
+  color: var(--dash-warn-header);
+}
+@container payment-planner (max-width: 360px) {
+  .dash-payment-planner__notice {
+    block-size: 104px;
+  }
+}
+.dash-payment-planner__notice[data-compact='true'] {
+  block-size: 28px;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: visible;
+}
+.dash-payment-planner__notice-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 2px 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: 11px;
+  text-align: left;
+}
+.dash-payment-planner__notice-popover {
+  width: min(360px, calc(100vw - 32px));
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-2);
+  font: 13px/1.5 var(--font-sans);
+}
+.dash-payment-planner__notice-popover button {
+  margin-top: var(--space-3);
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-muted);
+  color: var(--text-primary);
+}
+.dash-payment-planner__skeleton {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+}
+.dash-payment-planner__skeleton span {
+  height: 64px;
+  border-radius: var(--radius-md);
+  background: var(--bg-muted);
+  animation: payment-pulse 1.5s ease-in-out infinite alternate;
+}
+.dash-payment-planner__skeleton span:last-child {
+  grid-column: 1 / -1;
+  height: 100px;
+}
+@keyframes payment-pulse {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dash-payment-planner__skeleton span {
+    animation: none;
+  }
+}
+.dash-payment-planner__dialog-content {
+  container-type: normal;
+}
+.dash-payment-planner__dialog-content > * {
+  flex-shrink: 0;
+}
+.dash-payment-planner__details h3 {
+  font-size: var(--text-lg);
+}
+.dash-payment-planner__details dl {
+  margin-block: var(--space-3);
+  display: grid;
+  gap: var(--space-3);
+}
+.dash-payment-planner__details dl > div {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(0, 2fr);
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+.dash-payment-planner__details dt {
+  color: var(--text-muted);
+}
+.dash-payment-planner__details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.dash-payment-planner__details dd small {
+  display: block;
+}
+@container payment-planner (max-width: 540px) {
+  .dash-payment-planner__details dl > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+  }
+}
+.dash-payment-planner__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.dash-payment-planner__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-transform: inherit;
+  text-align: inherit;
+}
+.dash-payment-planner__sort:hover {
+  color: var(--accent-strong);
+}

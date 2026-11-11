@@ -26,12 +26,10 @@ describe('computePaymentPlan', () => {
   it('sorts by payment_rank ASC then provider_bill_id ASC and selects first N', () => {
     const config = parsePaymentPlannerParams({ selectedCount: 6 });
     const plan = computePaymentPlan(rows, config);
-    expect(plan.totalQueueCount).toBe(30);
+    expect(plan.totalQueueCount).toBe(rows.length);
     expect(plan.effectiveSelectedCount).toBe(6);
     expect(
-      plan.queueItems
-        .slice(0, 6)
-        .map((item) => item.row.provider_bill_id),
+      plan.queueItems.slice(0, 6).map((item) => item.row.provider_bill_id),
     ).toEqual([77602, 77604, 77606, 77608, 77610, 77612]);
   });
 

@@ -134,3 +134,19 @@ npm run typecheck  # проверка типов TypeScript
 2. **Архитектура и TypeScript (25%):** чистое разделение `params` / `compute` / `view`, отсутствие `any`, прохождение `npm run typecheck` и `npm test`.
 3. **UI/UX и адаптация к 4 размерам INTERA (25%):** использование токенов темы INTERA (`src/platform/theme.css`), интерактивный слайдер, корректный индикатор дополнительных валют в компактном размере.
 4. **Обработка граничных случаев и состояний данных (20%):** работа при `loading`, `refreshing`, `stale`, `empty`, `error`, некорректных суммах и отсутствии клиентского счёта.
+
+---
+
+## Developer documentation
+
+The original assignment above is preserved. Implementation documentation is maintained in English:
+
+- [Software Design Description and acceptance evidence](docs/SDD.md)
+- [Local setup, architecture, verification and demonstration guide](docs/DEVELOPMENT.md)
+- [Agent instructions](AGENTS.md)
+
+Use Node 24 LTS, run `npm ci`, then `npm run dev`. Run `npm run check` for local quality gates. Install Chromium with `npx playwright install chromium`, then run `npm run test:e2e` for browser checks.
+
+**Source clarification:** the checked-in fixture contains 32 records, not 30. The implementation preserves the complete input. The contractual YAML and exact grid row height were not present; see the SDD for disclosed assumptions.
+
+**GitHub Pages:** select **Settings → Pages → Source → GitHub Actions**, then push to `main`. The `Deploy GitHub Pages` workflow checks, builds and publishes the sandbox automatically. See the [deployment guide](docs/DEVELOPMENT.md#github-pages-deployment) for setup and manual runs.

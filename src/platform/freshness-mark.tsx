@@ -1,5 +1,5 @@
+import styles from './freshness-mark.module.css';
 import type { ReactElement } from 'react';
-import './freshness-mark.css';
 
 export type TFreshnessSource = 'rows' | 'metric' | 'silent';
 
@@ -9,8 +9,6 @@ interface IFreshnessMarkProps {
   lastSuccessAt: string | null;
   showLabel?: boolean;
 }
-
-const CLASS = 'dash-freshness';
 
 export function FreshnessMark({
   source,
@@ -23,8 +21,12 @@ export function FreshnessMark({
       ? `Данные устарели — последнее обновление: ${lastSuccessAt}`
       : 'Данные устарели';
     return (
-      <span className={`${CLASS} ${CLASS}--stale`} role="status" title={hint}>
-        <span className={`${CLASS}__dot`} aria-hidden="true" />
+      <span
+        className={`${styles['dash-freshness']} ${styles['dash-freshness--stale']}`}
+        role="status"
+        title={hint}
+      >
+        <span className={styles['dash-freshness__dot']} aria-hidden="true" />
         Stale
       </span>
     );
@@ -35,10 +37,12 @@ export function FreshnessMark({
   }
 
   if (source === 'metric') {
-    const hint = lastSuccessAt ? `Обновлено: ${lastSuccessAt}` : 'Данные актуальны';
+    const hint = lastSuccessAt
+      ? `Обновлено: ${lastSuccessAt}`
+      : 'Данные актуальны';
     return (
       <span
-        className={`${CLASS} ${CLASS}--ring`}
+        className={`${styles['dash-freshness']} ${styles['dash-freshness--ring']}`}
         role="img"
         aria-label={hint}
         title={hint}
@@ -51,12 +55,12 @@ export function FreshnessMark({
     : 'Актуальные данные';
   return (
     <span
-      className={`${CLASS} ${CLASS}--live`}
+      className={`${styles['dash-freshness']} ${styles['dash-freshness--live']}`}
       role="img"
       aria-label={liveHint}
       title={liveHint}
     >
-      <span className={`${CLASS}__dot`} aria-hidden="true" />
+      <span className={styles['dash-freshness__dot']} aria-hidden="true" />
       {showLabel ? 'Live' : null}
     </span>
   );

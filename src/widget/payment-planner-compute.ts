@@ -1,3 +1,4 @@
+import { toFiniteNumber } from '../platform/to-finite-number';
 import type { IProviderPaymentQueueRow } from '../types/provider-payment-queue';
 import type { IPaymentPlannerConfig } from './payment-planner-params';
 
@@ -54,7 +55,7 @@ export interface IPaymentPlanResult {
   totalQueueCount: number;
   /** Clamped number of selected bills: `Math.min(Math.max(0, selectedCount), totalQueueCount)`. */
   effectiveSelectedCount: number;
-  /** Number of unique providers across ALL selected bills (including or excluding invalid, specify: valid selected bills). */
+  /** Number of unique providers across valid selected bills. */
   selectedProviderCount: number;
   /** Count of selected bills that have `hasInvalidAmount === true` (excluded from sums). */
   invalidSelectedCount: number;
@@ -92,19 +93,137 @@ export function computePaymentPlan(
   config: IPaymentPlannerConfig,
   runtimeState?: IPaymentPlannerRuntimeState,
 ): IPaymentPlanResult {
-  void rows;
-  void config;
-  void runtimeState;
-
-  // TODO: Implement pure queue filtering, sorting, selection, and multi-currency aggregation.
+  const filtered = rows
+    .map((row, index) => ({
+      row,
+      index,
+      rank: toFiniteNumber(row.payment_rank),
+    }))
+    .filter(
+      ({ row }) =>
+        (config.providerId === 'all' ||
+          row.provider_id === config.providerId) &&
+        (config.billingCycleId === 'all' ||
+          row.billing_cycle_id === config.billingCycleId) &&
+        (config.currencyIds.length === 0 ||
+          config.currencyIds.includes(row.provider_currency_id)),
+    )
+    .sort((a, b) => {
+      if (a.rank === null && b.rank !== null) return 1;
+      if (a.rank !== null && b.rank === null) return -1;
+      return (
+        (a.rank !== null && b.rank !== null ? a.rank - b.rank : 0) ||
+        a.row.provider_bill_id - b.row.provider_bill_id ||
+        a.index - b.index
+      );
+    });
+  const override = runtimeState?.selectedCountOverride;
+  const requested =
+    typeof override === 'number' && Number.isFinite(override)
+      ? override
+      : config.selectedCount;
+  const effectiveSelectedCount = Math.min(
+    Math.max(0, Math.round(requested)),
+    filtered.length,
+  );
+  const queueItems: IQueueBillItem[] = filtered.map(({ row, rank }, index) => {
+    const amount = toFiniteNumber(row.provider_total_due);
+    const providerAmount = amount !== null && amount > 0 ? amount : null;
+    const customerAmount = toFiniteNumber(row.customer_total_due);
+    return {
+      row,
+      rank,
+      queuePosition: index + 1,
+      providerAmount,
+      customerAmount,
+      hasInvalidAmount: providerAmount === null,
+      selected: index < effectiveSelectedCount,
+      hasCustomerBill:
+        Boolean(row.customer_bill_no?.trim()) && customerAmount !== null,
+    };
+  });
+  const currencies = new Map<number, ICurrencyTotal>();
+  const providersByCurrency = new Map<number, Set<number>>();
+  const breakdown = new Map<string, IProviderCurrencyBreakdownItem>();
+  const selectedProviders = new Set<number>();
+  let invalidSelectedCount = 0;
+  for (const item of queueItems) {
+    if (!item.selected) continue;
+    if (item.providerAmount === null) {
+      invalidSelectedCount++;
+      continue;
+    }
+    const { row, providerAmount } = item;
+    const currencyId = row.provider_currency_id;
+    const currency = currencies.get(currencyId) ?? {
+      currencyId,
+      currencyName: row.provider_currency_name,
+      totalAmount: 0,
+      billCount: 0,
+      providerCount: 0,
+    };
+    const providerIds =
+      providersByCurrency.get(currencyId) ?? new Set<number>();
+    providerIds.add(row.provider_id);
+    providersByCurrency.set(currencyId, providerIds);
+    selectedProviders.add(row.provider_id);
+    currency.totalAmount += providerAmount;
+    currency.billCount++;
+    currency.providerCount = providerIds.size;
+    currencies.set(currencyId, currency);
+    const key = `${row.provider_id}:${currencyId}`;
+    const provider = breakdown.get(key) ?? {
+      providerId: row.provider_id,
+      providerName: row.provider_name,
+      currencyId,
+      currencyName: row.provider_currency_name,
+      totalAmount: 0,
+      billCount: 0,
+      sharePercent: 0,
+    };
+    provider.totalAmount += providerAmount;
+    provider.billCount++;
+    breakdown.set(key, provider);
+  }
+  const providerBreakdown = [...breakdown.values()]
+    .map((provider) => ({
+      ...provider,
+      sharePercent:
+        (provider.totalAmount /
+          (currencies.get(provider.currencyId)?.totalAmount ??
+            provider.totalAmount)) *
+        100,
+    }))
+    .sort(
+      (a, b) =>
+        b.totalAmount - a.totalAmount ||
+        a.currencyId - b.currencyId ||
+        a.providerId - b.providerId,
+    );
   return {
-    totalQueueCount: 0,
-    effectiveSelectedCount: 0,
-    selectedProviderCount: 0,
-    invalidSelectedCount: 0,
-    currencyTotals: [],
-    providerBreakdown: [],
-    queueItems: [],
-    visibleQueueItems: [],
+    totalQueueCount: queueItems.length,
+    effectiveSelectedCount,
+    selectedProviderCount: selectedProviders.size,
+    invalidSelectedCount,
+    currencyTotals: [...currencies.values()].sort(
+      (a, b) => a.currencyId - b.currencyId,
+    ),
+    providerBreakdown,
+    queueItems,
+    visibleQueueItems: queueItems.slice(0, config.rowLimit),
   };
+}
+
+export function getOldestSelectedInvoiceDate(
+  items: readonly IQueueBillItem[],
+): string | null {
+  return items.reduce<string | null>((oldest, item) => {
+    const value = item.row.provider_recv_date;
+    const timestamp = Date.parse(value);
+    return item.selected &&
+      Number.isFinite(timestamp) &&
+      (oldest === null || timestamp < Date.parse(oldest))
+      ? value
+      : oldest;
+  }, null);
 }

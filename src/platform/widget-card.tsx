@@ -1,5 +1,5 @@
+import styles from './widget-card.module.css';
 import type { ReactElement, ReactNode } from 'react';
-import './widget-card.css';
 
 interface IWidgetHeaderProps {
   title?: ReactNode;
@@ -29,15 +29,19 @@ export function WidgetHeader({
   return (
     <header
       className={
-        className ? `dash-card__header ${className}` : 'dash-card__header'
+        className
+          ? `${styles['dash-card__header']} ${className}`
+          : styles['dash-card__header']
       }
     >
-      <div className="dash-card__titles">
-        {hasTitle && <h4 className="dash-card__title">{title}</h4>}
-        {hasSubtitle && <p className="dash-card__subtitle">{subtitle}</p>}
+      <div className={styles['dash-card__titles']}>
+        {hasTitle && <h4 className={styles['dash-card__title']}>{title}</h4>}
+        {hasSubtitle && (
+          <p className={styles['dash-card__subtitle']}>{subtitle}</p>
+        )}
       </div>
       {aside !== undefined && aside !== null && (
-        <div className="dash-card__aside">{aside}</div>
+        <div className={styles['dash-card__aside']}>{aside}</div>
       )}
     </header>
   );
