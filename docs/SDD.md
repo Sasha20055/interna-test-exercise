@@ -347,3 +347,9 @@ Verified locally on Node 25.6.1: npm run check passed (formatting, lint, typeche
 Removed Chromium installation and browser tests from the Pages build at the user's request. npm run check still gates publication. The separate ci.yml continues to install Chromium and run the browser suite; deployment does not depend on its completion. Updated the deployment guide accordingly.
 
 Verified formatting for the workflow and deployment guide, parsed both workflow YAML files, checked that the deploy build retains npm run check without Playwright steps and that the quality workflow retains npm run test:e2e. git diff --check passed. Application code is unchanged; application tests and remote workflows were not rerun for this configuration-only adjustment.
+
+### Skip browser installation on push — 2026-11-11
+
+The user's screenshot showed the independent Quality checks workflow, whose push trigger still installed Chromium. CI now skips browser installation, E2E execution and browser-report uploads on push. Pull requests retain browser checks, and a new workflow_dispatch trigger permits manual browser runs. npm run check still runs for every CI event; the Pages workflow remains independent and contains no browser steps.
+
+Verified both YAML files parse, both browser steps have the push exclusion, manual dispatch is configured, npm run check is unconditional and the deployment build has no browser steps. Formatting checks for the workflow and deployment guide and git diff --check passed. No application tests or remote runs were executed for this workflow-only change.

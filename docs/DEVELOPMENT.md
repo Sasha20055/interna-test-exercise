@@ -44,7 +44,7 @@ On Linux CI, use `npx playwright install --with-deps chromium`. Playwright start
 
 ## GitHub Pages deployment
 
-The workflow `.github/workflows/deploy-pages.yml` publishes the sandbox after each push to `main`. It also supports manual runs from the Actions tab. It uses Node 24, installs the lockfile with `npm ci`, runs `npm run check`, then uploads `dist` and deploys it through the official GitHub Pages actions. Deployment runs only after these checks succeed. For faster deployment, browser installation and Chromium tests run only in the separate quality workflow on pushes and pull requests; Pages deployment does not wait for that workflow.
+The workflow `.github/workflows/deploy-pages.yml` publishes the sandbox after each push to `main`. It also supports manual runs from the Actions tab. It uses Node 24, installs the lockfile with `npm ci`, runs `npm run check`, then uploads `dist` and deploys it through the official GitHub Pages actions. Deployment runs only after these checks succeed. For faster push runs, browser installation and Chromium tests run only in the separate quality workflow for pull requests or manual dispatch; push events skip them. Pages deployment does not wait for that workflow. To run browser checks manually, select **Actions → Quality checks → Run workflow**.
 
 After uploading the project to a GitHub repository:
 
